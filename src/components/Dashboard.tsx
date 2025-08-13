@@ -62,14 +62,6 @@ const Dashboard: React.FC = () => {
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
       href: '/brigadas'
-    },
-    {
-      name: 'Equipamiento',
-      value: 'Gestionar',
-      icon: Package,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
-      href: '/equipamiento'
     }
   ];
 
@@ -121,7 +113,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Estadísticas */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -195,7 +187,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Acciones Rápidas */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
         <Link
           to="/brigadas"
           className="card hover:shadow-lg transition-shadow duration-200 group"
@@ -222,21 +214,6 @@ const Dashboard: React.FC = () => {
             <div>
               <h3 className="font-medium text-gray-900">Brigada Completa</h3>
               <p className="text-sm text-gray-600">Crear con equipamiento</p>
-            </div>
-          </div>
-        </Link>
-
-        <Link
-          to="/equipamiento"
-          className="card hover:shadow-lg transition-shadow duration-200 group"
-        >
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-orange-50 rounded-lg group-hover:bg-orange-100 transition-colors duration-200">
-              <Package className="h-6 w-6 text-orange-600" />
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-900">Equipamiento</h3>
-              <p className="text-sm text-gray-600">Gestionar inventario</p>
             </div>
           </div>
         </Link>

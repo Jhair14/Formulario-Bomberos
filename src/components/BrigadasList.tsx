@@ -133,79 +133,134 @@ const BrigadasList: React.FC = () => {
       {/* Brigadas List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredBrigadas.map((brigada) => (
-          <div key={brigada.id} className="card hover:shadow-lg transition-shadow duration-200">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                  {brigada.nombre_brigada}
-                </h3>
-                <div className="flex items-center space-x-2 mb-2">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    brigada.activo 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {brigada.activo ? 'Activa' : 'Inactiva'}
+          <div key={brigada.id} className="bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 transition-all duration-200 overflow-hidden">
+            {/* Header de la card */}
+            <div className="p-6 pb-4">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    {brigada.nombre_brigada}
+                  </h3>
+                  <div className="flex items-center space-x-2">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
+                      brigada.activo 
+                        ? 'bg-green-100 text-green-800 border border-green-200' 
+                        : 'bg-red-100 text-red-800 border border-red-200'
+                    }`}>
+                      <div className={`w-2 h-2 rounded-full mr-2 ${
+                        brigada.activo ? 'bg-green-500' : 'bg-red-500'
+                      }`}></div>
+                      {brigada.activo ? 'Activa' : 'Inactiva'}
+                    </span>
+                  </div>
+                </div>
+                {/* Botón de eliminar en la esquina */}
+                <button
+                  onClick={() => handleDelete(brigada)}
+                  title="Eliminar brigada"
+                  className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 group"
+                >
+                  <Trash2 className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            {/* Información de la brigada */}
+            <div className="px-6 pb-4">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3 text-gray-600">
+                  <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                    <Users className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <span className="text-sm font-medium">
+                    {brigada.cantidad_bomberos_activos} bomberos activos
                   </span>
                 </div>
+                
+                {brigada.contacto_celular_comandante && (
+                  <div className="flex items-center space-x-3 text-gray-600">
+                    <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+                      <Phone className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="text-sm">{brigada.contacto_celular_comandante}</span>
+                  </div>
+                )}
+
+                {brigada.encargado_logistica && (
+                  <div className="flex items-start space-x-3 text-gray-600">
+                    <div className="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg mt-0.5">
+                      <Settings className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <div className="flex-1">
+                      <span className="text-xs text-gray-500 uppercase tracking-wide font-semibold">
+                        Encargado de Logística
+                      </span>
+                      <p className="text-sm font-medium text-gray-900">
+                        {brigada.encargado_logistica}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <Users className="h-4 w-4" />
-                <span>{brigada.cantidad_bomberos_activos} bomberos activos</span>
-              </div>
-              
-              {brigada.contacto_celular_comandante && (
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <Phone className="h-4 w-4" />
-                  <span>{brigada.contacto_celular_comandante}</span>
+            {/* Footer con botones de acción */}
+            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+              <div className="flex items-center justify-between space-x-2">
+                {/* Grupo de botones principales */}
+                <div className="flex items-center space-x-2 flex-1">
+                  <Link
+                    to={`/brigadas/${brigada.id}`}
+                    className="inline-flex items-center px-3 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-colors duration-200 shadow-sm"
+                  >
+                    <Eye className="h-3 w-3 mr-1.5" />
+                    Ver
+                  </Link>
+                  
+                  <Link
+                    to={`/brigadas/editar/${brigada.id}`}
+                    className="inline-flex items-center px-3 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-colors duration-200 shadow-sm"
+                  >
+                    <Edit className="h-3 w-3 mr-1.5" />
+                    Editar
+                  </Link>
                 </div>
-              )}
-
-              {brigada.encargado_logistica && (
-                <div className="text-sm text-gray-600">
-                  <span className="font-medium">Logística:</span> {brigada.encargado_logistica}
-                </div>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-              <div className="flex items-center space-x-2">
-                <Link
-                  to={`/brigadas/${brigada.id}`}
-                  className="btn-secondary text-sm flex items-center space-x-1"
-                >
-                  <Eye className="h-3 w-3" />
-                  <span>Ver</span>
-                </Link>
-                <Link
-                  to={`/brigadas/editar/${brigada.id}`}
-                  className="btn-secondary text-sm flex items-center space-x-1"
-                >
-                  <Edit className="h-3 w-3" />
-                  <span>Editar</span>
-                </Link>
+                
+                {/* Botón destacado a la derecha */}
                 <Link
                   to={`/brigadas/editar-completa/${brigada.id}`}
-                  className="btn-primary text-sm flex items-center space-x-1"
+                  className="inline-flex items-center px-4 py-2 text-xs font-semibold text-white bg-gradient-to-r from-red-500 to-orange-600 rounded-lg hover:from-red-600 hover:to-orange-700 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105"
                 >
-                  <Settings className="h-3 w-3" />
-                  <span>Completa</span>
+                  <Settings className="h-3 w-3 mr-1.5" />
+                  Gestionar
                 </Link>
               </div>
-              <button
-                onClick={() => handleDelete(brigada)}
-                className="text-red-600 hover:text-red-800 text-sm flex items-center space-x-1 transition-colors"
-              >
-                <Trash2 className="h-3 w-3" />
-                <span>Eliminar</span>
-              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Mensaje cuando no hay brigadas */}
+      {filteredBrigadas.length === 0 && (
+        <div className="col-span-full">
+          <div className="text-center py-12 bg-white rounded-xl border-2 border-dashed border-gray-200">
+            <Users className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No se encontraron brigadas
+            </h3>
+            <p className="text-gray-600 mb-6">
+              No hay brigadas que coincidan con los filtros aplicados.
+            </p>
+            <Link
+              to="/brigadas/nueva"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-red-500 to-orange-600 rounded-lg hover:from-red-600 hover:to-orange-700 transition-all duration-200"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Crear primera brigada
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Empty State */}
       {filteredBrigadas.length === 0 && !loading && (
