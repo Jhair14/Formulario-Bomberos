@@ -1,32 +1,15 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const dbConfig = {
-  host: process.env.DB_SERVER || 'localhost', // Cambiar DB_HOST por DB_SERVER
-  database: process.env.DB_DATABASE || 'formulario_bomberos_2025',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || '12345678',
-  port: parseInt(process.env.DB_PORT) || 5433,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-};
-
-console.log('📊 Configuración de DB:', {
-  host: dbConfig.host,
-  database: dbConfig.database,
-  user: dbConfig.user,
-  port: dbConfig.port,
-  password: dbConfig.password
-});
-
 let pool;
 
 const getConnection = async () => {
   try {
     if (!pool) {
-      pool = new Pool(dbConfig);
+      pool = new Pool({
+        connectionString: "postgresql://postgres:sEjWavrHOFeJsNQmypeFVdcGFHpWeSpg@maglev.proxy.rlwy.net:56180/railway",
+        ssl: { rejectUnauthorized: false}
+      });
       console.log('✅ Conexión a la base de datos PostgreSQL establecida');
       
       // Test inicial de conexión
