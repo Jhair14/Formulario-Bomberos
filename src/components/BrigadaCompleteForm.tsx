@@ -379,6 +379,14 @@ const BrigadaCompleteForm: React.FC = () => {
       Cantidad: 0,
       Observaciones: '',
       // Agregar campos específicos según el tipo
+      ...(tipo === 'ropa' && { 
+        TipoRopaID: 0, 
+        CantidadXS: 0, 
+        CantidadS: 0, 
+        CantidadM: 0, 
+        CantidadL: 0, 
+        CantidadXL: 0 
+      }),
       ...(tipo === 'epp' && { EquipoEPPID: 0 }),
       ...(tipo === 'herramientas' && { HerramientaID: 0 }),
       ...(tipo === 'serviciosVehiculos' && { ServicioVehiculoID: 0, MontoAproximado: 0 }),
@@ -950,124 +958,321 @@ const BrigadaCompleteForm: React.FC = () => {
                 </button>
               </div>
               
-              {formData.equipamiento.ropa.map((ropa, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
-                  <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">XS</label>
-                      <NumberInput
-                        value={ropa.CantidadXS}
-                        onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadXS', value)}
-                        min={0}
-                        max={999999}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">S</label>
-                      <NumberInput
-                        value={ropa.CantidadS}
-                        onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadS', value)}
-                        min={0}
-                        max={999999}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">M</label>
-                      <NumberInput
-                        value={ropa.CantidadM}
-                        onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadM', value)}
-                        min={0}
-                        max={999999}
-                      />
-                    </div>
-                                          <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">L</label>
-                        <NumberInput
-                          value={ropa.CantidadL}
-                          onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadL', value)}
-                          min={0}
-                          max={999999}
-                        />
-                      </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">XL</label>
-                      <NumberInput
-                        value={ropa.CantidadXL}
-                        onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadXL', value)}
-                        min={0}
-                        max={999999}
-                      />
-                    </div>
-                    <div className="flex items-end">
-                      <button
-                        type="button"
-                        onClick={() => removeEquipamientoItem('ropa', index)}
-                        className="btn-secondary text-sm"
-                      >
-                        Eliminar
-                      </button>
-                    </div>
-                  </div>
+
+              
+              {formData.equipamiento.ropa.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Package className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                  <p>No hay tipos de ropa agregados</p>
+                  <p className="text-sm">Haz clic en "AGREGAR" para comenzar</p>
                 </div>
-              ))}
+              ) : (
+                formData.equipamiento.ropa.map((ropa, index) => (
+                  <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
+                                                        <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
+                     <div className="md:col-span-2">
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Ropa *</label>
+                       <select
+                         value={ropa.TipoRopaID || ''}
+                         onChange={(e) => handleEquipamientoChange('ropa', index, 'TipoRopaID', parseInt(e.target.value) || 0)}
+                         className="input-field"
+                         required
+                       >
+                         <option value="">Seleccionar Tipo de Ropa</option>
+                         <option value="1">CAMISA FORESTAL</option>
+                         <option value="2">PANTALON FORESTAL</option>
+                         <option value="3">OVEROL FR</option>
+                         <option value="4">OTRO</option>
+                       </select>
+                       {ropa.TipoRopaID === 4 && (
+                         <input
+                           type="text"
+                           value={ropa.Observaciones || ''}
+                           onChange={(e) => handleEquipamientoChange('ropa', index, 'Observaciones', e.target.value)}
+                           className="input-field mt-2"
+                           placeholder="Especificar otro tipo de ropa"
+                         />
+                       )}
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Cant. XS</label>
+                       <NumberInput
+                         value={ropa.CantidadXS}
+                         onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadXS', value)}
+                         min={0}
+                         max={999999}
+                       />
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Cant. S</label>
+                       <NumberInput
+                         value={ropa.CantidadS}
+                         onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadS', value)}
+                         min={0}
+                         max={999999}
+                       />
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Cant. M</label>
+                       <NumberInput
+                         value={ropa.CantidadM}
+                         onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadM', value)}
+                         min={0}
+                         max={999999}
+                       />
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Cant. L</label>
+                       <NumberInput
+                         value={ropa.CantidadL}
+                         onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadL', value)}
+                         min={0}
+                         max={999999}
+                       />
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Cant. XL</label>
+                       <NumberInput
+                         value={ropa.CantidadXL}
+                         onChange={(value) => handleEquipamientoChange('ropa', index, 'CantidadXL', value)}
+                         min={0}
+                         max={999999}
+                       />
+                     </div>
+                   </div>
+                   <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+                     
+                     <div>
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
+                       <input
+                         type="text"
+                         value={ropa.Observaciones}
+                         onChange={(e) => handleEquipamientoChange('ropa', index, 'Observaciones', e.target.value)}
+                         className="input-field"
+                         placeholder="Observaciones"
+                       />
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-700 mb-1">Total de unidades</label>
+                       <div className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-center font-semibold text-gray-700">
+                         {(ropa.CantidadXS || 0) + (ropa.CantidadS || 0) + (ropa.CantidadM || 0) + (ropa.CantidadL || 0) + (ropa.CantidadXL || 0)}
+                       </div>
+                     </div>
+                     <div className="flex items-end">
+                       <button
+                         type="button"
+                         onClick={() => removeEquipamientoItem('ropa', index)}
+                         className="btn-secondary text-sm"
+                       >
+                         Eliminar
+                       </button>
+                     </div>
+                   </div>
+                </div>
+                ))
+              )}
             </div>
 
-            {/* Botas */}
-            <div className="card">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Botas de Seguridad</h2>
-              <div className="grid grid-cols-2 md:grid-cols-7 gap-4">
-                {[37, 38, 39, 40, 41, 42, 43].map((talla) => (
-                  <div key={talla}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Talla {talla}</label>
-                    <NumberInput
-                      value={formData.equipamiento.botas[`Talla${talla}` as keyof typeof formData.equipamiento.botas] as number}
-                      onChange={(value) => {
-                        setFormData(prev => ({
-                          ...prev,
-                          equipamiento: {
-                            ...prev.equipamiento,
-                            botas: {
-                              ...prev.equipamiento.botas,
-                              [`Talla${talla}`]: value
-                            }
-                          }
-                        }));
-                      }}
-                      min={0}
-                      max={999999}
-                    />
-                  </div>
-                ))}
-              </div>
+                         {/* Botas */}
+             <div className="card">
+               <h2 className="text-lg font-semibold text-gray-900 mb-4">Botas de Seguridad</h2>
+               <div className="grid grid-cols-2 md:grid-cols-7 gap-4">
+                 {[37, 38, 39, 40, 41, 42, 43].map((talla) => (
+                   <div key={talla}>
+                     <label className="block text-sm font-medium text-gray-700 mb-1">Talla {talla}</label>
+                     <NumberInput
+                       value={formData.equipamiento.botas[`Talla${talla}` as keyof typeof formData.equipamiento.botas] as number}
+                       onChange={(value) => {
+                         setFormData(prev => ({
+                           ...prev,
+                           equipamiento: {
+                             ...prev.equipamiento,
+                             botas: {
+                               ...prev.equipamiento.botas,
+                               [`Talla${talla}`]: value
+                             }
+                           }
+                         }));
+                       }}
+                       min={0}
+                       max={999999}
+                     />
+                   </div>
+                 ))}
+               </div>
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-1">Otra Talla</label>
+                   <input
+                     type="text"
+                     value={formData.equipamiento.botas.OtraTalla}
+                     onChange={(e) => {
+                       setFormData(prev => ({
+                         ...prev,
+                         equipamiento: {
+                           ...prev.equipamiento,
+                           botas: {
+                             ...prev.equipamiento.botas,
+                             OtraTalla: e.target.value
+                           }
+                         }
+                       }));
+                     }}
+                     className="input-field"
+                     placeholder="Ej: 44, 45"
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-1">Cantidad Otra Talla</label>
+                   <NumberInput
+                     value={formData.equipamiento.botas.CantidadOtraTalla}
+                     onChange={(value) => {
+                       setFormData(prev => ({
+                         ...prev,
+                         equipamiento: {
+                           ...prev.equipamiento,
+                           botas: {
+                             ...prev.equipamiento.botas,
+                             CantidadOtraTalla: value
+                           }
+                         }
+                       }));
+                     }}
+                     min={0}
+                     max={999999}
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
+                   <input
+                     type="text"
+                     value={formData.equipamiento.botas.Observaciones}
+                     onChange={(e) => {
+                       setFormData(prev => ({
+                         ...prev,
+                         equipamiento: {
+                           ...prev.equipamiento,
+                           botas: {
+                             ...prev.equipamiento.botas,
+                             Observaciones: e.target.value
+                           }
+                         }
+                       }));
+                     }}
+                     className="input-field"
+                     placeholder="Observaciones sobre las botas"
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-1">Total de unidades</label>
+                   <div className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-center font-semibold text-gray-700">
+                     {['XS', 'S', 'M', 'L', 'XL', 'XXL'].reduce((total, talla) => 
+                       total + (formData.equipamiento.guantes[`Talla${talla}` as keyof typeof formData.equipamiento.guantes] as number || 0), 0
+                     )}
+                   </div>
+                 </div>
+               </div>
             </div>
 
-            {/* Guantes */}
-            <div className="card">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Guantes</h2>
-              <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map((talla) => (
-                  <div key={talla}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Talla {talla}</label>
-                    <NumberInput
-                      value={formData.equipamiento.guantes[`Talla${talla}` as keyof typeof formData.equipamiento.guantes] as number}
-                      onChange={(value) => {
-                        setFormData(prev => ({
-                          ...prev,
-                          equipamiento: {
-                            ...prev.equipamiento,
-                            guantes: {
-                              ...prev.equipamiento.guantes,
-                              [`Talla${talla}`]: value
-                            }
-                          }
-                        }));
-                      }}
-                      min={0}
-                      max={999999}
-                    />
-                  </div>
-                ))}
-              </div>
+                         {/* Guantes */}
+             <div className="card">
+               <h2 className="text-lg font-semibold text-gray-900 mb-4">Guantes</h2>
+               <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                 {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map((talla) => (
+                   <div key={talla}>
+                     <label className="block text-sm font-medium text-gray-700 mb-1">Talla {talla}</label>
+                     <NumberInput
+                       value={formData.equipamiento.guantes[`Talla${talla}` as keyof typeof formData.equipamiento.guantes] as number}
+                       onChange={(value) => {
+                         setFormData(prev => ({
+                           ...prev,
+                           equipamiento: {
+                             ...prev.equipamiento,
+                             guantes: {
+                               ...prev.equipamiento.guantes,
+                               [`Talla${talla}`]: value
+                             }
+                           }
+                         }));
+                       }}
+                       min={0}
+                       max={999999}
+                     />
+                   </div>
+                 ))}
+               </div>
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-1">Otra Talla</label>
+                   <input
+                     type="text"
+                     value={formData.equipamiento.guantes.OtraTalla}
+                     onChange={(e) => {
+                       setFormData(prev => ({
+                         ...prev,
+                         equipamiento: {
+                           ...prev.equipamiento,
+                           guantes: {
+                             ...prev.equipamiento.guantes,
+                             OtraTalla: e.target.value
+                           }
+                         }
+                       }));
+                     }}
+                     className="input-field"
+                     placeholder="Ej: XXS, XXXL"
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-1">Cantidad Otra Talla</label>
+                   <NumberInput
+                     value={formData.equipamiento.guantes.CantidadOtraTalla}
+                     onChange={(value) => {
+                       setFormData(prev => ({
+                         ...prev,
+                         equipamiento: {
+                           ...prev.equipamiento,
+                           guantes: {
+                             ...prev.equipamiento.guantes,
+                             CantidadOtraTalla: value
+                           }
+                         }
+                       }));
+                     }}
+                     min={0}
+                     max={999999}
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
+                   <input
+                     type="text"
+                     value={formData.equipamiento.guantes.Observaciones}
+                     onChange={(e) => {
+                       setFormData(prev => ({
+                         ...prev,
+                         equipamiento: {
+                           ...prev.equipamiento,
+                           guantes: {
+                             ...prev.equipamiento.guantes,
+                             Observaciones: e.target.value
+                           }
+                         }
+                       }));
+                     }}
+                     className="input-field"
+                     placeholder="Observaciones sobre los guantes"
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-1">Total de unidades</label>
+                   <div className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-center font-semibold text-gray-700">
+                     {['XS', 'S', 'M', 'L', 'XL', 'XXL'].reduce((total, talla) => 
+                       total + (formData.equipamiento.guantes[`Talla${talla}` as keyof typeof formData.equipamiento.guantes] as number || 0), 0
+                     )}
+                   </div>
+                 </div>
+               </div>
             </div>
           </div>
         )}
