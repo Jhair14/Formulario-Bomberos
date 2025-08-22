@@ -16,7 +16,7 @@ app.use(helmet());
 
 
 app.use(cors({
-  origin: ['https://formulario-bomberos-nqbe.vercel.app','formulario-bomberos-nqbe-git-main-jhair-andersons-projects.vercel.app','formulario-bomberos-nqbe-9h8hbmf9i-jhair-andersons-projects.vercel.app'],
+  origin: ['https://formulario-bomberos-nqbe.vercel.app','formulario-bomberos-nqbe-git-main-jhair-andersons-projects.vercel.app','formulario-bomberos-nqbe-9h8hbmf9i-jhair-andersons-projects.vercel.app','http://localhost:3000/'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
